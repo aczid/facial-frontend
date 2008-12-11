@@ -8,12 +8,10 @@ class Search < Application
 
   def new(csv_file)
     @query = Query.new(csv_file)
-    #@results = @query.table_class.all
-    @query.find_images
     @query.save
-    debugger
+    #debugger
     #@images = @query.images
-    display @query
-    #render
+    #display @query
+    render
   end
 end

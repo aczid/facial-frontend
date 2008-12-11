@@ -5,7 +5,7 @@ development: &defaults
   adapter:  mysql
   database: nfi_development
   username: nfi
-  password: nfi
+  password: nfi_dev
   host: localhost
  
   # Add more repositories

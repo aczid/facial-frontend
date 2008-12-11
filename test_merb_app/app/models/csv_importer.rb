@@ -3,41 +3,29 @@ class CsvImporter
   attr_accessor :table_class
 
   require 'fastercsv'
-  #require 'csv'
 
-  def initialize(args = {})
-    @filename = args.delete(:filename)
-    @table_name = args.delete(:table_name)
+  def initialize(filename)
+    @filename = filename
     @table_columns = ['image_filename']
-    auto_import if @filename
-    load_table if @table_name
-  end
-
-  def self.table_name(filename)
-    #filename.match(/(\w\d+\w\d+)/)[1]
-    filename.gsub(/\.csv/, '').gsub(/-/, '_')
-  end
-
-  def auto_import
-    basename = File.basename(@filename).to_s
-    @table_name = "csvimport_#{@table_name || CsvImporter.table_name(basename)}"
-    @table_name << '_query' if basename.match(/(query)/)
+    puts "Parsing CSV file #{filename}"
     parse_file(@filename)
   end
 
-  def load_table
-    @table_class = Class.new do
-      include DataMapper::Resource
-    end
-    @table_class.storage_names[:default] = @table_name
-    puts @table_class.inspect
+  # Returns sanitized name from filename.
+  # Replaces dashes with underscores, removes slashes, removes .csv extension and prepends 'csvimport_'
+  # Appends '_query' if the filename holds the string 'query'
+  def self.table_name(filename)
+    basename = File.basename(filename.to_s).to_s
+    table_name = "csvimport_#{basename.gsub(/\.csv/, '').gsub(/-/, '_').gsub(/\//, '')}"
+    table_name << '_query' if basename.match(/(query)/)
+    table_name
   end
 
+  # Import CSV data into the database table using the ORM class
   def parse_file(filename)
-    #@parsed_file = CSV::Reader.parse(File.open(filename, 'rb'))
     @parsed_file = FasterCSV.read(filename)
     analyze_header(@parsed_file.shift)
-    create_table(@table_name, @table_columns)
+    create_table(CsvImporter.table_name(filename), @table_columns)
     n = 0
     @parsed_file.each do | row |
       hash = row2hash(row)
@@ -51,6 +39,7 @@ class CsvImporter
     end
   end
 
+  # Converts a row of CSV data to a ruby Hash.
   def row2hash(row)
     hash = {}
     row.size.times do |i|
@@ -61,18 +50,19 @@ class CsvImporter
     hash
   end
     
+  # Analyzes CSV header and adds fields to @table_columns array
   def analyze_header(header)
     header.each do | column |
       # strips digit prefixes from CSV header and adds the result to 
       # table columns
       if column
-        column = "token_#{column.to_s}" unless column.to_s.match(/token_/)
-        @table_columns.push column.to_s.gsub(/\d+: /,'')
+        #column = "token_#{column.to_s}" unless column.to_s[0].is_a?(Integer)
+        @table_columns.push column.to_s.gsub(/^\d+: /,'')
       end
     end
   end
 
-  # Automagically creates a table class
+  # Automagically creates an ORM class for the import using @table_columns array
   def create_table(name, columns)
     # creates a new table class with an image_filename property
     @table_class = Class.new do
@@ -94,6 +84,35 @@ class CsvImporter
     unless @table_class.storage_exists?
       @table_class.auto_migrate!
     end
+  end
+
+  # Uses mysql DESC hack to reconstruct already imported table
+  def self.load_class(name)
+    @table_class = Class.new do
+      include DataMapper::Resource
+      property :id, DataMapper::Types::Serial
+      property :updated_at, DateTime
+    end
+    @table_class.storage_names[:default] = name
+    desc = Query.find_by_sql("desc #{name}")
+    desc.each do |field|
+      case field.created_at
+      when /DateTime/i
+        klass = DateTime
+      when /Float/i
+        klass = Float
+      else
+        klass = String
+      end
+      klass = DataMapper::Types::Serial if field.id == "id"
+      if klass == Float
+        @table_class.property field.id.to_sym, klass, :precision => 11
+      else
+        @table_class.property field.id.to_sym, klass
+      end
+      #puts "Created field with id #{field.id.to_sym}, class: #{klass}"
+    end
+    @table_class
   end
 
 end
