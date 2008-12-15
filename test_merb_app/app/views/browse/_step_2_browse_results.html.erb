@@ -1,0 +1,43 @@
+  <div class="step2header">
+    <div style="float:right"><img src="/images/minus.gif" alt="minus" width="10" height="10" /></div>
+    Step 2: Results
+  </div>
+  <div class="step2mainstyle">
+    <!-- Row 1 -->
+    <div>
+      <div class="step3header">Step 3: Select compare Image </div>
+      <div class="imageresultsheader">Step 4: Images that match the compare image </div><br />
+    </div>
+      <!-- Row 2 -->
+    <div>
+      <div class="step3mainstyle">
+        <%= form :action => url(:controller => :browse, :action => :select_image) do %>
+          <%= label "Filename" %>
+          <%= select :selected_image, :collection => @job.images%>
+          <%= submit "Select" %>
+        <% end =%>
+      <table align="center" class="imagecontainer" <% unless @selected_image -%>style="display:none;"<% end -%>>
+          <tr>
+            <td><img src="<%= File.join(@job.relative_images_path, @selected_image) -%>" alt="<%= @selected_image.gsub(/\..3..4$/,'') -%>" width="150px" /></td>
+          </tr>
+          <tr>
+            <td>Filename:<em>image1.gif</em></td>
+          </tr>
+        </table>
+      </div>
+      <div class="imageresultsmain">
+        <table align="center">
+          <tr>
+            <% @job.matches[@selected_image.to_sym][0..3].each do |match| -%>
+              <td class="imagecontainer"><img src="<%= File.join(@job.relative_images_path, match[:image_filename]) -%>" alt="<%=match[:image_filename].gsub(/\..3..4$/,'') -%>" width="150px"/><br />Filename: <em><%= match[:image_filename].gsub(/\//,'') -%></em><br/>Match: <%= match[:accuracy] -%></td>
+            <% end -%>
+          </tr>
+          <tr>
+            <% @job.matches[@selected_image.to_sym][4..7].each do |match| -%>
+              <td class="imagecontainer"><img src="<%= File.join(@job.relative_images_path, match[:image_filename]) -%>" alt="<%=match[:image_filename].gsub(/\..3..4$/,'') -%>" width="150px"/><br />Filename: <em><%= match[:image_filename].gsub(/\//,'') -%></em><br/>Match: <%= match[:accuracy] -%></td>
+            <% end -%>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
