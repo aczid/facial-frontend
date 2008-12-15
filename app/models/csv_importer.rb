@@ -94,7 +94,7 @@ class CsvImporter
       property :updated_at, DateTime
     end
     @table_class.storage_names[:default] = name
-    desc = Query.find_by_sql("desc #{name}")
+    desc = Job.find_by_sql("desc #{name}")
     desc.each do |field|
       case field.created_at
       when /DateTime/i

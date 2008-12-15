@@ -13,8 +13,10 @@ class Browse < Application
     if job[:filename][:filename].match(/\.csv$/)
       @job = Job.new(job[:filename])
       @job.save
-      @selected_image = @job.images[0]
-      @job.calculate_matches_for(@selected_image)
+      if @job.all_images_exist?
+        @selected_image = @job.images[0]
+        @job.calculate_matches_for(@selected_image)
+      end
       session[:csv_file] = job[:filename][:filename]
     else
       # Unpack and move images into place
