@@ -2,9 +2,11 @@ default_run_options[:pty] = true
 set :application, "nfi_frontend"
 set :repository,  "git://github.com/fis-nfi-2008/facial-frontend.git"
 set :scm, "git"
+set :scm_passphrase, "blaat"
 set :user, "aczid"
 set :branch, "master"
 set :git_shallow_clone, 1
+set :use_sudo, false
 
 # If you aren't deploying to /u/apps/#{application} on the target
 # servers (which is the default), you can specify the actual location
