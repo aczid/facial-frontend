@@ -30,6 +30,7 @@ task :after_symlink do
   #run "ln -nfs #{shared_path}/db/#{application}_production.sqlite3 #{release_path}/db/#{application}_production.sqlite3" 
 end
 
+=begin
 desc "Start Merb" 
 deploy.task :start do
   run "cd #{current_path}; merb -e production -c 1" # plain old mongrel
@@ -45,3 +46,4 @@ deploy.task :restart do
   deploy.stop
   deploy.start
 end
+=end
