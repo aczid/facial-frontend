@@ -21,3 +21,27 @@ set :deploy_to, "/home/aczid/#{application}"
 role :app, "redbull.mine.nu"
 role :web, "redbull.mine.nu"
 role :db,  "redbull.mine.nu", :primary => true
+
+desc "Link in the production extras" 
+task :after_symlink do
+    # symlink log path
+  run "ln -nfs #{shared_path}/log #{release_path}/log" 
+    # symlink path to database, this is only needed if you are using sqlite (which is ok for little things and is really easy)
+  #run "ln -nfs #{shared_path}/db/#{application}_production.sqlite3 #{release_path}/db/#{application}_production.sqlite3" 
+end
+
+desc "Start Merb" 
+deploy.task :start do
+  run "cd #{current_path}; merb -e production -c 1" # plain old mongrel
+end
+desc "Stop Merb" 
+deploy.task :stop do
+  run "cd #{current_path};merb -K all -e production" 
+  # run "cd #{current_path};env EVENT=1 merb -e production -c 1" # for evented mongrel
+end
+
+desc "Restart Merb"
+deploy.task :restart do
+  deploy.stop
+  deploy.start
+end
