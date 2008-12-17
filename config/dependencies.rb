@@ -13,4 +13,4 @@ dependency "dm-migrations", "0.9.8"   # Make incremental changes to your databas
 dependency "dm-timestamps", "0.9.8"   # Automatically populate created_at, created_on, etc. when those properties are present.
 #dependency "dm-types", "0.9.8"        # Provides additional types, including csv, json, yaml.
 dependency "dm-validations", "0.9.8"  # Validation framework
-#dependency "dm-serializer", "0.9.8"  # Serialization framework
+dependency "dm-serializer", "0.9.8"  # Serialization framework

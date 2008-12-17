@@ -17,7 +17,6 @@ end
  
 Merb::BootLoader.before_app_loads do
   # This will get executed after dependencies have been loaded but before your app's classes have loaded.
-  require "lib/anonymous_class_to_yaml.rb"
 end
  
 Merb::BootLoader.after_app_loads do

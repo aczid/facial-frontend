@@ -18,25 +18,27 @@
         <% end =%>
       <table align="center" class="imagecontainer" <% unless @selected_image -%>style="display:none;"<% end -%>>
           <tr>
-            <td><img src="<%= File.join(@job.relative_images_path, @selected_image) -%>" alt="<%= @selected_image.gsub(/\..3..4$/,'') -%>" width="150px" /></td>
+            <td><img src="<%= relative_images_path(@selected_image) -%>" alt="<%= @selected_image.gsub(/\..3..4$/,'') -%>" width="150px" /></td>
           </tr>
           <tr>
-            <td>Filename:<em>image1.gif</em></td>
+            <td>Filename:<em><%= friendly_name(@selected_image) -%></em></td>
           </tr>
         </table>
       </div>
       <div class="imageresultsmain">
         <table align="center">
-          <tr>
-            <% @job.matches[@selected_image.to_sym][0..3].each do |match| -%>
-              <td class="imagecontainer"><img src="<%= File.join(@job.relative_images_path, match[:image_filename]) -%>" alt="<%=match[:image_filename].gsub(/\..3..4$/,'') -%>" width="150px"/><br />Filename: <em><%= match[:image_filename].gsub(/\//,'') -%></em><br/>Match: <%= match[:accuracy] -%></td>
+          <% index = 0 -%>
+          <% @job.matches[@selected_image.to_sym].each do |match| -%>
+              <% if index >= images_per_row || index == 0 -%>
+                <tr>
+              <% end -%>
+              <td class="imagecontainer"><img src="<%= relative_images_path(friendly_name(match.image_filename)) -%>" alt="<%=friendly_name(match.image_filename).gsub(/\..3..4$/,'') -%>" width="150px"/><br />Filename: <em><%= friendly_name(match.image_filename) -%></em><br/>Match: <%= match.instance_variable_get("@#{cleanup_filename(@selected_image)}") -%></td>
+              <% index += 1 -%>
+              <% if index >= images_per_row || index == 0 -%>
+                <tr>
+              <% index = 0 -%>
+              <% end -%>
             <% end -%>
-          </tr>
-          <tr>
-            <% @job.matches[@selected_image.to_sym][4..7].each do |match| -%>
-              <td class="imagecontainer"><img src="<%= File.join(@job.relative_images_path, match[:image_filename]) -%>" alt="<%=match[:image_filename].gsub(/\..3..4$/,'') -%>" width="150px"/><br />Filename: <em><%= match[:image_filename].gsub(/\//,'') -%></em><br/>Match: <%= match[:accuracy] -%></td>
-            <% end -%>
-          </tr>
         </table>
       </div>
     </div>
