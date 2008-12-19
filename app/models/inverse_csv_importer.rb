@@ -98,24 +98,26 @@ class InverseCsvImporter
       property :updated_at, DateTime
     end
     @table_class.storage_names[:default] = name
-    desc = Job.find_by_sql("desc #{name}")
-    desc.each do |field|
-      case field.created_at
-      when /DateTime/i
-        klass = DateTime
-      when /Float/i
-        klass = Float
-      else
-        klass = String
-      end
-      klass = DataMapper::Types::Serial if field.id == "id"
-      if klass == Float
-        @table_class.property field.id.to_sym, klass, :precision => 11
-      else
-        @table_class.property field.id.to_sym, klass
-      end
+    #if @table_class.storage_exists?
+      desc = Job.find_by_sql("desc #{name}")
+      desc.each do |field|
+        case field.created_at
+        when /DateTime/i
+          klass = DateTime
+        when /Float/i
+          klass = Float
+        else
+          klass = String
+        end
+        klass = DataMapper::Types::Serial if field.id == "id"
+        if klass == Float
+          @table_class.property field.id.to_sym, klass, :precision => 11
+        else
+          @table_class.property field.id.to_sym, klass
+        end
       #puts "Created field with id #{field.id.to_sym}, class: #{klass}"
-    end
+      end
+    #end
     @table_class
   end
 

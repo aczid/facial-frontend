@@ -1,13 +1,13 @@
-  <% require_js "jquery.nginxUploadProgress" %>
   <div class="step1header">
     <div style="float:right"><img src="/images/minus.gif" alt="minus" width="10" height="10" /></div>
     Step 1: Uploading CSV / Images
   </div>
 
   <div class="step2mainstyle">
-    <%= form_for @job, :action => url(:controller => 'browse', :action => 'upload_file') do %>
+    <%= form_for @job, :action => url(:controller => 'browse', :action => 'upload_csv') do %>
       <%= label "CSV File" %>
-      <%= file_field :filename %>
+      <%= file_field :file %>
       <%= submit :upload %>
     <% end =%>
+
   </div>

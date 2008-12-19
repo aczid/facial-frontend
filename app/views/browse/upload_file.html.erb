@@ -1,6 +1,0 @@
-<% if @job.all_images_exist? -%>
-  <%= partial("step_1_upload_files") -%>
-  <%= partial("step_2_browse_results") -%>
-<% else -%>
-  <%= partial("upload_missing_images") -%>
-<% end -%>

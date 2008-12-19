@@ -10,32 +10,30 @@ class Browse < Application
   end
 
   def benchmark
-    @job = Job.new({:filename => "c3a16-on-ref-f-300x400.csv", :tmp_file => "/home/aczid/workspace/nfi_data/c3a16-on-ref-f-300x400.csv"})
-    @selected_image = @job.images[0]
-    @job.calculate_matches_for(@selected_image)
-    render(:upload_file)
+    @job = Job.first({:file => "c3a16-on-ref-f-300x400.csv"})
+    @job.prepare
+    render(:main)
   end
 
-  def upload_file(job)
-    if job[:filename][:filename].match(/\.csv$/)
-      @job = Job.new(job[:filename])
-      if @job.all_images_exist?
-        @selected_image = @job.images[0]
-        @job.calculate_matches_for(@selected_image)
+  def upload_csv(job)
+    if job[:file][:filename].match(/\.csv$/)
+      @job = Job.first(:file => job[:file][:filename])
+      if @job.nil?
+        @job = Job.new(job[:file])
+        @job.save
+      else
+        @job.prepare
       end
-      @job.save
-      session[:csv_file] = job[:filename][:filename]
-    else
-      # Unpack and move images into place
+      session[:csv_file] = job[:file][:filename]
     end
-    render
+    render(:main)
   end
 
-  def select_image(selected_image)
-    @job = Job.new({:filename => session[:csv_file]})
-    @selected_image = selected_image
-    @job.calculate_matches_for(@selected_image)
-    render(:upload_file)
+  def compare_image(job)
+    @job = Job.first({:file => session[:csv_file]})
+    @job.selected_image = @job.sane_name(job[:selected_image])
+    @job.prepare
+    render(:main)
   end
 
 end

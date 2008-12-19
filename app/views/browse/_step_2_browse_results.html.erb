@@ -1,44 +1,53 @@
+<% require_css "custom_select" %>
+<% require_js "jquery", "jquery.customselect", "form_functions" %>
+<% require_js "jquery.inspect" %>
   <div class="step2header">
     <div style="float:right"><img src="/images/minus.gif" alt="minus" width="10" height="10" /></div>
     Step 2: Results
   </div>
   <div class="step2mainstyle">
-    <!-- Row 1 -->
     <div>
       <div class="step3header">Step 3: Select compare Image </div>
       <div class="imageresultsheader">Step 4: Images that match the compare image </div><br />
     </div>
-      <!-- Row 2 -->
     <div>
       <div class="step3mainstyle">
-        <%= form :action => url(:controller => :browse, :action => :select_image) do %>
+        <%= form_for @job, :action => url(:controller => :browse, :action => :compare_image) do %>
           <%= label "Filename" %>
-          <%= select :selected_image, :collection => @job.images%>
+          <%= select :selected_image, :collection => @job.images.map {|image| [@job.relative_path_to(image), image]}, :selected => @job.relative_path_to(@job.selected_image) %>
+          <% select :selected_image, :collection => @job.images %>
           <%= submit "Select" %>
         <% end =%>
-      <table align="center" class="imagecontainer" <% unless @selected_image -%>style="display:none;"<% end -%>>
+
+      <table align="center" class="imagecontainer" <% unless @job.selected_image -%>style="display:none;"<% end -%>>
           <tr>
-            <td><img src="<%= relative_images_path(@selected_image) -%>" alt="<%= @selected_image.gsub(/\..3..4$/,'') -%>" width="150px" /></td>
+            <td><img src="<%= @job.relative_path_to_selected_image -%>" alt="<%= strip_file_extension(@job.selected_image)-%>" width="150px" /></td>
           </tr>
           <tr>
-            <td>Filename:<em><%= friendly_name(@selected_image) -%></em></td>
+            <td>
+              Filename:<em><%= @job.selected_image -%></em>
+            </td>
           </tr>
         </table>
       </div>
       <div class="imageresultsmain">
         <table align="center">
+        <% index = 0 -%>
+        <% @job.matches[@job.selected_image.to_sym].each do |match| -%>
+          <% if index == 0 -%>
+          <tr>
+          <% end -%>
+            <td class="imagecontainer">
+              <img src="<%= @job.relative_path_to_image_for_match(match) -%>" alt="<%= strip_file_extension(@job.image_filename_for_match(match))-%>" width="150px"/><br/>
+              Filename: <em><%= @job.image_filename_for_match(match) -%></em><br/>
+              Match: <%= @job.match_accuracy(match) -%>
+            </td>
+          <% index += 1 -%>
+          <% if index >= images_per_row -%>
+          </tr>
           <% index = 0 -%>
-          <% @job.matches[@selected_image.to_sym].each do |match| -%>
-              <% if index >= images_per_row || index == 0 -%>
-                <tr>
-              <% end -%>
-              <td class="imagecontainer"><img src="<%= relative_images_path(friendly_name(match.image_filename)) -%>" alt="<%=friendly_name(match.image_filename).gsub(/\..3..4$/,'') -%>" width="150px"/><br />Filename: <em><%= friendly_name(match.image_filename) -%></em><br/>Match: <%= match.instance_variable_get("@#{cleanup_filename(@selected_image)}") -%></td>
-              <% index += 1 -%>
-              <% if index >= images_per_row || index == 0 -%>
-                <tr>
-              <% index = 0 -%>
-              <% end -%>
-            <% end -%>
+          <% end -%>
+        <% end -%>
         </table>
       </div>
     </div>

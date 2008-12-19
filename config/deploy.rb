@@ -30,24 +30,7 @@ task :after_symlink do
   #run "ln -nfs #{shared_path}/db/#{application}_production.sqlite3 #{release_path}/db/#{application}_production.sqlite3" 
 end
 
-desc "Start Merb" 
-deploy.task :start do
-=begin
-  run "cd #{current_path}; merb -e production -c 1" # plain old mongrel
-=end
-end
-desc "Stop Merb" 
-deploy.task :stop do
-=begin
-  run "cd #{current_path};merb -K all -e production" 
-  # run "cd #{current_path};env EVENT=1 merb -e production -c 1" # for evented mongrel
-=end
-end
-
-desc "Restart Merb"
+desc "Restart Passenger apache2 module"
 deploy.task :restart do
-=begin
-  deploy.stop
-  deploy.start
-=end
+  `touch #{deploy_to}/tmp/restart.txt`
 end
