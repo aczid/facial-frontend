@@ -20,6 +20,7 @@ class Browse < Application
       @job = Job.first(:file => job[:file][:filename])
       if @job.nil?
         @job = Job.new(job[:file])
+        @job.calculate_matches_for(@job.selected_image)
         @job.save
       else
         @job.prepare
