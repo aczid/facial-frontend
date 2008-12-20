@@ -1,9 +1,9 @@
 default_run_options[:pty] = true
 set :application, "nfi_frontend"
-set :repository,  "git://github.com/fis-nfi-2008/facial-frontend.git"
+set :repository,  "git://github.com/aczid/facial-frontend.git"
 set :scm, "git"
 set :scm_passphrase, "blaat"
-set :user, "aczid"
+set :user, "www-data"
 set :branch, "master"
 set :git_shallow_clone, 1
 set :use_sudo, false
@@ -12,7 +12,7 @@ set :use_sudo, false
 # servers (which is the default), you can specify the actual location
 # via the :deploy_to variable:
 #set :deploy_to, "/var/www/#{application}"
-set :deploy_to, "/home/aczid/#{application}"
+set :deploy_to, "/var/www/#{application}"
 
 # If you aren't using Subversion to manage your source code, specify
 # your SCM below:
@@ -31,6 +31,6 @@ task :after_symlink do
 end
 
 desc "Restart Passenger apache2 module"
-deploy.task :restart do
-  `touch #{deploy_to}/tmp/restart.txt`
+deploy.task :restart, :roles => :app do
+  run "touch #{current_path}/tmp/restart.txt"
 end
