@@ -24,8 +24,10 @@ role :db,  "redbull.mine.nu", :primary => true
 
 desc "Link in the production extras" 
 task :after_symlink do
-    # symlink log path
+  # symlink log path
   run "ln -nfs #{shared_path}/log #{release_path}/log" 
+  # symlink uploads dir
+  run "ln -nfs #{shared_path}/uploads/ #{current_path}/public/uploads" 
     # symlink path to database, this is only needed if you are using sqlite (which is ok for little things and is really easy)
   #run "ln -nfs #{shared_path}/db/#{application}_production.sqlite3 #{release_path}/db/#{application}_production.sqlite3" 
 end
