@@ -2,7 +2,7 @@ require File.join( File.dirname(__FILE__), '..', "spec_helper" )
 
 describe InverseCsvImporter do
   before(:each) do
-    filename = "#{'/home/aczid/workspace/nfi_data/c3a16-on-ref-f-300x400.csv'}"
+    filename = "#{'/home/aczid/nfi_data/c3a16-on-ref-f-300x400.csv'}"
     @m = InverseCsvImporter.new(filename)
   end
 
@@ -20,7 +20,7 @@ describe InverseCsvImporter do
     end
 
     it "should create a table named like the supplied file with a prefix" do
-      @m.table_class.storage_names[:default].should == 'csvimport_c3a16-on-ref-f-300x400'
+      @m.table_class.storage_names[:default].should == 'csvimport_c3a16_on_ref_f_300x400'
       @m.table_class.storage_exists?.should == true
     end
   end
