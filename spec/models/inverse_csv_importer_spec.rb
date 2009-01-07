@@ -27,7 +27,7 @@ describe InverseCsvImporter do
 
   describe "supplied with a query" do
     before(:each) do
-      filename = "#{File.join(Merb.root, '../data_samples/query-on-c4a16.csv')}"
+      filename = "#{File.join(Merb.root, '../nfi_data/query-on-c4a16.csv')}"
       @m = InverseCsvImporter.new(filename)
     end
     
