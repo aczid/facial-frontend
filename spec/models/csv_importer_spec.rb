@@ -3,7 +3,7 @@ require File.join( File.dirname(__FILE__), '..', "spec_helper" )
 describe CsvImporter do
   before(:each) do
     filename = "#{File.join(Merb.root, '../data_samples/c3a16-on-ref-f-300x400.csv')}"
-    @m = CsvImporter.new({:filename => filename })
+    @m = CsvImporter.new(filename)
   end
 
   it "should create a new instance of a CvsImporter" do
@@ -28,7 +28,7 @@ describe CsvImporter do
   describe "supplied with a query" do
     before(:each) do
       filename = "#{File.join(Merb.root, '../data_samples/query-on-c4a16.csv')}"
-      @m = CsvImporter.new({:filename => filename })
+      @m = CsvImporter.new(filename)
     end
     
     it "should parse the file" do
