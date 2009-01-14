@@ -1,5 +1,5 @@
 <%= partial("upload_csv_form") -%>
-<h1 class="title">Your jobs:</h1>
+<div style="float:left;"><h1 class="title">Your jobs:</h1></div>
 
 <% @jobs.each do |job| -%>
   <div class="jobsoverview">
@@ -7,8 +7,8 @@
     <strong>Job:</strong><%= link_to job.csv_file_name, url(:job_images, job) -%><br/>
     <br />
     <% unless job.all_images_exist? -%>
-    <strong>Missing Images: </strong>
-    <div style="text-align:left; padding-left:10px; color:#FF0000;">
+    <strong>Missing Images: </strong> <a href="#" onclick="$('missingimages').toggle()">Show / Hide</a>
+    <div id="missingimages" style="text-align:left; padding-left:10px; color:#FF0000;visibility:hidden;">
       <% job.missing_images.each do |image| -%>
         <%= image -%><br/>
       <% end -%>
