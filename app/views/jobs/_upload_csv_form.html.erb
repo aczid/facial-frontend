@@ -1,0 +1,13 @@
+  <div class="step1header">
+    <div style="float:right"><img src="/images/minus.gif" alt="minus" width="10" height="10" /></div>
+    Step 1: Uploading CSV / Images
+  </div>
+
+  <div class="step2mainstyle">
+    <%= form_for @job, :action => url(:controller => 'jobs', :action => 'create') do %>
+      <%= label "CSV File" %>
+      <%= file_field :csv %>
+      <%= submit :upload %>
+    <% end =%>
+
+  </div>
