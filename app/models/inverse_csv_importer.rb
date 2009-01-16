@@ -4,8 +4,9 @@ class InverseCsvImporter
 
   require 'fastercsv'
 
-  def initialize(filename)
+  def initialize(filename, user)
     @filename = filename
+    @user = user
     @table_columns = ['image_filename']
     puts "Parsing CSV file #{filename}"
     parse_file(@filename)
@@ -14,10 +15,10 @@ class InverseCsvImporter
   # Returns sanitized name from filename.
   # Replaces dashes with underscores, removes slashes, removes .csv extension and prepends 'csvimport_'
   # Appends '_query' if the filename holds the string 'query'
-  def self.table_name(filename)
+  def self.table_name(filename, user)
     basename = File.basename(filename.to_s).to_s
-    table_name = "csvimport_#{basename.gsub(/\.csv/, '').gsub(/-/, '_').gsub(/\//, '')}"
-    table_name << '_query' if basename.match(/(query)/)
+    table_name = "#{user}_csvimport_#{basename.gsub(/\.csv/, '').gsub(/-/, '_').gsub(/\//, '')}"
+    #table_name << '_query' if basename.match(/(query)/)
     table_name
   end
 
@@ -25,7 +26,7 @@ class InverseCsvImporter
   def parse_file(filename)
     @parsed_file = FasterCSV.read(filename)
     find_first_columns(@parsed_file)
-    create_table(InverseCsvImporter.table_name(filename), @table_columns)
+    create_table(InverseCsvImporter.table_name(filename, @user), @table_columns)
     values = {}
     @parsed_file[0].enum_with_index.map do |filename, idx|
       if filename

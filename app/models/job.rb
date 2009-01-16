@@ -9,16 +9,26 @@ NUM_MATCHES = 8
 class Job 
   # This enables the use of Job as a database-backed model (see http://www.datamapper.org/)
   include DataMapper::Resource
+  include DataMapper::Validate
+  include Paperclip::Resource 
 
   # Properties set here are accesable instance variables that can be saved to the database
   # You should access them via 'self.' rather than '@' to make sure they will be marked as 'tainted' and will be saved to the database
   property :id, Serial
   property :created_at, DateTime
-  property :file, String
+  has_attached_file :csv
+  validates_present :csv
+  validates_attachment_content_type :csv, :content_type => "text/csv"
+
+  # Several arrays to save associated images
   property :images, Object
   property :reference_images, Object
   property :missing_images, Object
   property :missing_reference_images, Object
+
+  # Jobs belong to users
+  belongs_to :user
+  validates_present :user
 
   # Provides getters/setters for instance variables (makes them public)
   attr_accessor :matches
@@ -29,37 +39,43 @@ class Job
   #after :load, :prepare
 
   # Constructs a new database-backed Job object
-  def initialize(args = {:filename => nil, :tempfile => nil})
-    self.file = args[:filename]
+  def initialize(args = {})
+    self.csv = args[:csv]
     self.images = []
     self.missing_images = []
     self.reference_images = []
     self.missing_reference_images = []
     @matches = Hash.new
-    if(self.file)
-      import_file(args)
-      find_images
+    if self.valid?
+      import_csv_and_find_images
     end
   end
 
   def prepare
     load_table_class if @table_class.nil?
-    calculate_matches_for(selected_image)
+    if all_images_exist?
+      calculate_matches_for(selected_image)
+    end
+  end
+
+  def import_csv_and_find_images
+    import_file
+    find_images
   end
 
   # Creates Job directory, moves CSV file there and imports it using InverseCsvImporter
-  def import_file(args)
-    import_file = File.join(absolute_import_dir, self.file)
-    unless File.exists?(import_file)
-      FileUtils.mkdir absolute_import_dir unless File.directory?(absolute_import_dir)
-      FileUtils.mv args[:tempfile].path, import_file
-      @table_class = InverseCsvImporter.new(import_file).table_class
-    end
+  def import_file
+    #import_file = File.join(absolute_import_dir, self.csv_file_name)
+    #unless File.exists?(import_file)
+      #FileUtils.mkdir absolute_import_dir unless File.directory?(absolute_import_dir)
+      #FileUtils.mv self.csv.path, import_file
+      @table_class = InverseCsvImporter.new(self.csv.path, self.user.login).table_class
+    #end
   end
 
   # Loads table class from existing table
   def load_table_class
-    @table_class = InverseCsvImporter.load_class(InverseCsvImporter.table_name(self.file))
+    @table_class = InverseCsvImporter.load_class(InverseCsvImporter.table_name(self.csv_file_name, self.user.login))
   end
 
   # Returns absolute path to directory where data files will be imported to
@@ -69,7 +85,7 @@ class Job
 
   # Returns relative path to directory where data files will be imported to
   def relative_import_dir
-    "/uploads/#{InverseCsvImporter.table_name(self.file)}"
+    "/uploads/#{InverseCsvImporter.table_name(self.csv_file_name, self.user.login)}"
   end
 
   # Collects:
