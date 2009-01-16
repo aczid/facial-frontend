@@ -14,3 +14,4 @@ dependency "dm-timestamps", "0.9.8"   # Automatically populate created_at, creat
 #dependency "dm-types", "0.9.8"        # Provides additional types, including csv, json, yaml.
 dependency "dm-validations", "0.9.8"  # Validation framework
 dependency "dm-serializer", "0.9.8"  # Serialization framework
+dependency "dm-paperclip", "2.1.4"

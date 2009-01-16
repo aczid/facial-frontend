@@ -1,5 +1,5 @@
 default_run_options[:pty] = true
-set :application, "nfi_frontend"
+set :application, "facial-frontend"
 set :repository,  "git://github.com/aczid/facial-frontend.git"
 set :scm, "git"
 set :scm_passphrase, "blaat"
