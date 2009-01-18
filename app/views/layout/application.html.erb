@@ -8,7 +8,11 @@
     <%= include_required_js -%>
   </head>
   <body class="bodystyle">
-    <%#= message[:notice] %>
+    <% unless session.user.nil? -%>
+      <div style="text-align: right">Welcome back, <b><%=session.user.login-%>!</b>(<%= link_to "logout", url(:logout)-%>)</div>
+    <% end -%>
+    <%= message[:notice] %>
+    <%#= message[:error] %>
     <%= catch_content :for_layout %>
   </body>
 </html>
