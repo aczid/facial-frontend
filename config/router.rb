@@ -27,13 +27,13 @@
 
 Merb.logger.info("Compiling routes...")
 Merb::Router.prepare do
-  # RESTful routes
-  # resources :posts
   
   # Adds the required routes for merb-auth using the password slice
   slice(:merb_auth_slice_password, :name_prefix => nil, :path_prefix => "")
   authenticate do
-    resources :jobs
+    resources :jobs do |job|
+      job.resources :images
+    end
   end
 
   # This is the default route for /:controller/:action/:id
