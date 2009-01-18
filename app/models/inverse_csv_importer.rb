@@ -100,7 +100,7 @@ class InverseCsvImporter
     end
     @table_class.storage_names[:default] = name
     #if @table_class.storage_exists?
-      desc = Job.find_by_sql("desc #{name}")
+      desc = repository(:default).adapter.query("desc #{name}")
       desc.each do |field|
         case field.created_at
         when /DateTime/i
@@ -120,6 +120,10 @@ class InverseCsvImporter
       end
     #end
     @table_class
+  end
+
+  def self.drop_table(name)
+    repository(:default).adapter.query("drop table #{name}")
   end
 
 end
