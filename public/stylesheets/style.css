@@ -1,5 +1,148 @@
+.loginpageheader{
+	float: left;
+	font: bold 0.7em sans-serif;
+	background-color: #DDD;
+	border-left: solid 1px #999;
+	border-bottom: solid 1px #999;
+	border-top: solid 1px #999;
+	border-right: solid 1px #999;
+	background: url(/images/top_bg.gif);
+	width: 80%;
+	padding: 0px 4px;
+	margin-left: 10%;
+	margin-top: 10%;
+}
+.loginpagemain{
+	float: left;
+	font: 0.7em sans-serif;
+	background-color: #DDD;
+	border-left: solid 1px #999;
+	border-bottom: solid 1px #999;
+	border-top: solid 1px #999;
+	border-right: solid 1px #999;
+	width: 80%;
+	padding: 0px 4px;
+	margin-left: 10%;
+}
+
+.errortext{
+color:#FF0000;
+text-decoration:underline;
+margin-left: 10px;
+}
+
+.loginpass{
+float: left;
+margin-top:5px;
+font: bold;
+}
+
+.title{
+font: bold 1.2em sans-serif;
+}
+
+.login_header{
+	float: left;
+	font: bold 0.7em sans-serif;
+	background-color: #DDD;
+	border-left: solid 1px #999;
+	border-bottom: solid 1px #999;
+	border-top: solid 1px #999;
+	border-right: solid 1px #999;
+	padding: 0px 4px;
+	background: url(/images/top_bg1.gif);
+	width: 80%;
+	height: 33px;
+}
+
+.jobsoverview{
+	float: left;
+	font: 0.7em sans-serif;
+	background-color: #DDD;
+	border-left: solid 1px #999;
+	border-bottom: solid 1px #999;
+	border-top: solid 1px #999;
+	border-right: solid 1px #999;
+	padding: 0px 4px;
+	background-color: #EEE;
+	width: 80%;
+	margin-top: 5px;
+}
+
+
+.bodystyle_cursor{
+background-color: #FFFFFF;
+cursor:move;
+}
+
 .bodystyle{
 background-color: #FFFFFF;
+}
+
+.popup_header{
+	font: bold 0.7em sans-serif;
+	background-color: #DDD;
+	border-left: solid 1px #999;
+	border-bottom: solid 1px #999;
+	border-top: solid 1px #999;
+	border-right: solid 1px #999;
+	background: url(/images/top_bg.gif);
+	width: 100%;
+	padding: 0px 5px;
+}
+
+.popup_main{
+	border-left: solid 1px #999;
+	border-bottom: solid 1px #999;
+	border-right: solid 1px #999;
+	background-color: #EEE;
+	width: 100%;
+	height: 500px;
+	padding: 10px 5px;
+	text-align:center;
+}
+
+.popup_image{
+width: 99%;
+height: 99%;
+}
+
+.popup_imagewindow{
+	float:left;
+	width: 48%;
+	height: 450px;
+	border-left: solid 1px #999;
+	border-bottom: solid 1px #999;
+	border-right: solid 1px #999;
+	border-top: solid 1px #999;
+	vertical-align:middle;
+	margin: 0px 3px;
+
+}
+
+.popup_text{
+	float:left;
+	width: 48%;
+	height: 25px;
+	border-left: solid 1px #999;
+	border-bottom: solid 1px #999;
+	border-right: solid 1px #999;
+	vertical-align:middle;
+	margin: 0px 3px
+}
+
+.popup_visable{
+position:absolute; 
+margin: auto; 
+height: 300px; 
+width: 900px; 
+left: 100px; 
+top: 46px;
+visibility:visible
+}
+
+.popup_hidden{
+visibility:hidden;
 }
 
 .step1header{
@@ -12,7 +155,7 @@ background-color: #FFFFFF;
 	border-right: solid 1px #999;
 	padding: 0px 4px;
 	background: url(/images/top_bg.gif);
-	width: 98%;
+	width: 80%;
 }
 
 .step2header{
@@ -25,7 +168,7 @@ background-color: #FFFFFF;
 	border-right: solid 1px #999;
 	padding: 0px 4px;
 	background: url(/images/top_bg.gif);
-	width: 98%;
+	width: 80%;
 }
 
 .imageresultsheader{
@@ -61,7 +204,7 @@ background-color: #FFFFFF;
 	border-bottom: solid 1px #CCC;
 	border-right: solid 1px #999;
 	background-color: #EEE;
-	width: 98%;
+	width: 80%;
 	padding: 0px 4px;
 }
 
@@ -74,7 +217,7 @@ background-color: #FFFFFF;
 	border-bottom: solid 1px #CCC;
 	border-right: solid 1px #999;
 	background-color: #EEE;
-	width: 98%;
+	width: 80%;
 	padding: 10px 4px;
 }
 
