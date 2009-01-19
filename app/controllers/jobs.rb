@@ -54,7 +54,7 @@ class Jobs < Application
       redirect resource(@job)
     else
       message[:error] = "Job failed to be created"
-      render :new
+      redirect url(:action => :index)
     end
   end
 
