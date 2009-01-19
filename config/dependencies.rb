@@ -17,4 +17,4 @@ dependency "dm-timestamps", DM_VERSION   # Automatically populate created_at, cr
 #dependency "dm-types", DM_VERSION        # Provides additional types, including csv, json, yaml.
 dependency "dm-validations", DM_VERSION  # Validation framework
 dependency "dm-serializer", DM_VERSION # Serialization framework
-dependency "dm-paperclip", "2.1.4"
+dependency "dm-paperclip", "2.1.4"     # File attachment plugin

@@ -3,27 +3,16 @@ class Images < Application
   before :find_job
 
   def index
-    @images = @job.images
-    #render_text "woot"
+    @job.selected_image = @job.sane_name(@job.images[0])
+    @job.prepare
+    @job.calculate_matches_for(@job.selected_image)
     display @images
   end
 
-  def show(id)
-    @image = Image.get(id)
-    raise NotFound unless @image
-    display @image
-  end
-
-  def new
-    only_provides :html
-    @image = Image.new
-    display @image
-  end
-
-  def edit(id)
-    only_provides :html
-    @image = Image.get(id)
-    raise NotFound unless @image
+  def show(selected_image)
+    @job.selected_image = @job.sane_name(selected_image)
+    @job.prepare
+    @job.calculate_matches_for(@job.selected_image)
     display @image
   end
 
@@ -36,32 +25,13 @@ class Images < Application
     redirect resource(@job)
   end
 
-  def update(id, image)
-    @image = Image.get(id)
-    raise NotFound unless @image
-    if @image.update_attributes(image)
-       redirect resource(@image)
-    else
-      display @image, :edit
-    end
-  end
-
-  def destroy(id)
-    @image = Image.get(id)
-    raise NotFound unless @image
-    if @image.destroy
-      redirect resource(:images)
-    else
-      raise InternalServerError
-    end
-  end
- 
   private
 
     def find_job
       @job = session.user.jobs.get(params[:job_id])
       raise NotFound unless @job
       @job.prepare
+      params[:selected_image] = params[:id] if !params[:selected_image]
     end
 
 end # Images

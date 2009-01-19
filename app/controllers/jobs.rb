@@ -28,7 +28,7 @@ class Jobs < Application
   end
 
   def delete(id)
-    @job = Job.get(id)
+    @job = session.user.jobs.get(id)
     render
   end
 
@@ -61,7 +61,7 @@ class Jobs < Application
   end
 
   def destroy(id)
-    @job = Job.get(id)
+    @job = session.user.jobs.get(id)
     raise NotFound unless @job
     if @job.destroy
       redirect resource(:jobs)

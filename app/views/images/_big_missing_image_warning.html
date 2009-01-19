@@ -1,0 +1,17 @@
+
+            <div class="missingfilesstyle">
+              <div class="warningbox" border="0" cellpadding="0" cellspacing="0">
+                <div style="display: inline; color:#FF0000">Warning:</div></b> The following files mentioned in the CSV file could not be found.<br/>
+                <div>
+                  <p>Some compared images are missing! Please upload the following files. (Supported formats: jpeg, jpg, png, zip, rar, tar)</p>
+                  <% @job.missing_images.each do |image| -%>
+                    <%= image -%><br/>
+                  <% end -%>
+                  <% @job.missing_reference_images.each do |image| -%>
+                    <%= image -%><br/>
+                  <% end -%>
+                </div>
+                Please use the form below to upload the missing files.<br/>
+                <%= partial "jobs/upload_missing_images_form", :job => @job -%>
+              </div>
+            </div>

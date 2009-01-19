@@ -1,6 +1,2 @@
-<% if @job.all_images_exist? -%>
-  <%= partial("upload_csv_form") -%>
-  <%= partial("browse_files") -%>
-<% else -%>
-  <%= partial("big_missing_images_warning") -%>
-<% end -%>
+<%= partial("upload_csv_form") -%>
+<%= partial("images/browse_files") -%>
