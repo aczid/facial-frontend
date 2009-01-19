@@ -3,8 +3,8 @@ class Images < Application
   before :find_job
 
   def index
-    @job.selected_image = @job.sane_name(@job.images[0])
     @job.prepare
+    @job.selected_image = @job.sane_name(@job.images[0])
     @job.calculate_matches_for(@job.selected_image)
     display @images
   end

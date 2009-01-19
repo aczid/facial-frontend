@@ -49,10 +49,8 @@ class Jobs < Application
       @job.prepare
     end
     # Saving again to cache images arrays
-    if @job.save
-      if @job.all_images_exist?
-        @job.calculate_matches_for(@job.selected_image)
-      end
+    if @job.save && @job.all_images_exist?
+      @job.calculate_matches_for(@job.selected_image)
       redirect resource(@job)
     else
       message[:error] = "Job failed to be created"

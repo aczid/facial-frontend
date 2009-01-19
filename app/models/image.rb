@@ -34,15 +34,23 @@ class Image
   end
 
   def process_as_image
-    FileUtils.mv @args[:tempfile].path, File.join(images_dir, File.basename(@args[:filename]))
+    FileUtils.mv @args[:tempfile].path, File.join(images_dir, strip_path_from_file(@args[:filename]))
+  end
+
+  def strip_path_from_file(path)
+    path.gsub(/.*\/|.*\\/,'')
+  end
+
+  def escape(string)
+    string.gsub(/\ /, '\\\ ')
   end
 
   def process_as_archive
     @stdout = ''
     @stderr = ''
-    target_file = File.join(images_dir, File.basename(@args[:filename]))
+    target_file = File.join(images_dir, strip_path_from_file(@args[:filename]))
     FileUtils.mv @args[:tempfile].path, target_file
-    Open3.popen3("cd #{images_dir}; #{File.join(Merb.root,'lib/decompress.sh')} #{target_file}; find #{images_dir} -type f -print0 | xargs -0 -I% mv % #{images_dir}; find #{images_dir} -type d -print0 | xargs -0 -I% rmdir %; rm #{target_file}") do |i,o,e|
+    Open3.popen3("cd #{escape(images_dir)}; #{File.join(Merb.root,'lib/decompress.sh')} #{escape(target_file)}; find #{escape(images_dir)} -type f -print0 | xargs -0 -I% mv % #{escape(images_dir)}; find #{escape(images_dir)} -type d -print0 | xargs -0 -I% rmdir %; rm #{target_file}") do |i,o,e|
       while((line = o.gets))
         @stdout << line
       end 
