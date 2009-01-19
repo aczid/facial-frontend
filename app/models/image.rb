@@ -48,9 +48,9 @@ class Image
   def process_as_archive
     @stdout = ''
     @stderr = ''
-    target_file = File.join(images_dir, strip_path_from_file(@args[:filename]))
+    target_file = File.expand_path(File.join(images_dir, strip_path_from_file(@args[:filename])))
     FileUtils.mv @args[:tempfile].path, target_file
-    Open3.popen3("cd #{escape(images_dir)}; #{File.join(Merb.root,'lib/decompress.sh')} #{escape(target_file)}; find #{escape(images_dir)} -type f -print0 | xargs -0 -I% mv % #{escape(images_dir)}; find #{escape(images_dir)} -type d -print0 | xargs -0 -I% rmdir %; rm #{target_file}") do |i,o,e|
+    Open3.popen3("cd #{escape(images_dir)}; #{File.join(File.expand_path(Merb.root),'lib/decompress.sh')} #{escape(target_file)}; find #{escape(images_dir)} -type f -print0 | xargs -0 -I% mv % #{escape(images_dir)}; find #{escape(images_dir)} -type d -print0 | xargs -0 -I% rmdir %; rm #{target_file}") do |i,o,e|
       while((line = o.gets))
         @stdout << line
       end 
