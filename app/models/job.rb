@@ -33,6 +33,7 @@ class Job
 
   # Provides getters/setters for instance variables (makes them public)
   attr_accessor :matches
+  attr_accessor :num_matches
   attr_accessor :selected_image
 
   # This method is private, so we can't add a hook :(
@@ -163,7 +164,8 @@ class Job
 
   def calculate_matches_for(selected_image)
     self.matches = Hash.new unless self.matches.is_a? Hash
-    self.matches[sane_name(selected_image).to_sym] = @table_class.all(:order => [InverseCsvImporter.cleanup_filename(selected_image).to_sym.desc])[0..NUM_MATCHES-1]
+    @num_matches = NUM_MATCHES unless @num_matches
+    self.matches[sane_name(selected_image).to_sym] = @table_class.all(:order => [InverseCsvImporter.cleanup_filename(selected_image).to_sym.desc])[0..@num_matches.to_i-1]
   end
 
   # Returns absolute path for uploaded images, derived from self.file

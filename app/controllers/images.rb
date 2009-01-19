@@ -31,6 +31,7 @@ class Images < Application
       @job = session.user.jobs.get(params[:job_id])
       raise NotFound unless @job
       @job.prepare
+      @job.num_matches = params[:matches] if params[:matches]
       params[:selected_image] = params[:id] if !params[:selected_image]
     end
 
