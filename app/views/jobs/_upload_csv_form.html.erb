@@ -4,7 +4,7 @@
   </div>
 
   <div class="step2mainstyle">
-    <%= form_for @job, :action => url(:controller => 'jobs', :action => 'create') do %>
+    <%= form_for @job, :action => url(:jobs) do %>
       <%= label "CSV File" %>
       <%= file_field :csv %>
       <%= submit "Upload" %>
