@@ -1,0 +1,3 @@
+Are you sure you want to delete the job: "<%= @job.table_name -%>"?
+<%= link_to "Yes", url(:controller=> :jobs, :id => @job.id, :action => 'destroy') %>
+<%= link_to "No", url(:jobs) %>
