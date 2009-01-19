@@ -11,12 +11,13 @@ class Job
   include DataMapper::Resource
   include DataMapper::Validate
   include Paperclip::Resource 
+  include Paperclip::Validate
 
   # Properties set here are accesable instance variables that can be saved to the database
   # You should access them via 'self.' rather than '@' to make sure they will be marked as 'tainted' and will be saved to the database
   property :id, Serial
   property :created_at, DateTime
-  has_attached_file :csv
+  has_attached_file :csv, :nullable => false
   validates_present :csv
   validates_attachment_content_type :csv, :content_type => "text/csv"
 
@@ -37,6 +38,8 @@ class Job
   # This method is private, so we can't add a hook :(
   # Workaround is to call prepare on found Job objects
   #after :load, :prepare
+  # Normally we would call before :destroy here, but dm-paperclip uses that hook to delete its files (and associated instance methods, which we rely on in the drop_table method.
+  before :destroy_attached_files, :drop_table
 
   # Constructs a new database-backed Job object
   def initialize(args = {})
@@ -53,9 +56,6 @@ class Job
 
   def prepare
     load_table_class if @table_class.nil?
-    if all_images_exist?
-      calculate_matches_for(selected_image)
-    end
   end
 
   def import_csv_and_find_images
@@ -63,19 +63,24 @@ class Job
     find_images
   end
 
-  # Creates Job directory, moves CSV file there and imports it using InverseCsvImporter
+  # Imports attached CSV using InverseCsvImporter
   def import_file
-    #import_file = File.join(absolute_import_dir, self.csv_file_name)
-    #unless File.exists?(import_file)
-      #FileUtils.mkdir absolute_import_dir unless File.directory?(absolute_import_dir)
-      #FileUtils.mv self.csv.path, import_file
-      @table_class = InverseCsvImporter.new(self.csv.path, self.user.login).table_class
-    #end
+    @table_class = InverseCsvImporter.new(self.csv.path, self.user.login).table_class
   end
 
   # Loads table class from existing table
   def load_table_class
-    @table_class = InverseCsvImporter.load_class(InverseCsvImporter.table_name(self.csv_file_name, self.user.login))
+    @table_class = InverseCsvImporter.load_class(self.table_name)
+  end
+
+  # Name of associated table
+  def table_name
+    InverseCsvImporter.table_name(self.csv_file_name, self.user.login)
+  end
+
+  # Drops associated table
+  def drop_table
+    InverseCsvImporter.drop_table(self.table_name)
   end
 
   # Returns absolute path to directory where data files will be imported to
@@ -94,6 +99,10 @@ class Job
   # * reference images on the filesystem into self.reference_images
   # * reference images not found on the filesystem into self.missing_reference_images
   def find_images
+    self.images = []
+    self.missing_images = []
+    self.reference_images = []
+    self.missing_reference_images = []
     rows = @table_class.all
     rows.each do |row|
       filename = locate_image(row.image_filename)
@@ -106,7 +115,7 @@ class Job
       if(row == rows.last)
         row.instance_variables.each do | column |
           # Filter out the intance variables we set up ourselves
-          unless ['@id', '@repository','@image_filename','@original_values', '@new_record','@collection', '@updated_at'].include? column
+          unless ['@id', '@repository','@image_filename','@original_values', '@new_record','@collection', '@updated_at', '@child_associations', '@parent_associations', '@errors'].include? column
             filename = locate_image(column.gsub(/@/,''))
             if image_exists?(filename)
               self.images << filename

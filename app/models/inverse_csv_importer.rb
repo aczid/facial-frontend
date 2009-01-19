@@ -100,7 +100,10 @@ class InverseCsvImporter
     end
     @table_class.storage_names[:default] = name
     #if @table_class.storage_exists?
-      desc = repository(:default).adapter.query("desc #{name}")
+      # Proper
+      #desc = repository(:default).adapter.query("desc #{name}")
+      # Hack
+      desc = Job.find_by_sql("desc #{name}")
       desc.each do |field|
         case field.created_at
         when /DateTime/i
@@ -123,7 +126,11 @@ class InverseCsvImporter
   end
 
   def self.drop_table(name)
-    repository(:default).adapter.query("drop table #{name}")
+    # Need to add a ! to supress errors (that occur from the query's reader mixin not getting any data)
+    begin
+      repository(:default).adapter.query!("drop table #{name}")
+    rescue
+    end
   end
 
 end

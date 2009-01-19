@@ -4,14 +4,21 @@ class Jobs < Application
 
   def index
     @jobs = session.user.jobs
-    @job = Job.new
+    @job = Job.new # empty job to build form on
     display @jobs
   end
 
   def show(id)
     @job = session.user.jobs.get(id)
     raise NotFound unless @job
-    display @job
+    if @job.all_images_exist?
+      #@job.selected_image = @job.sane_name(job[:selected_image])
+      @job.prepare
+      @job.calculate_matches_for(@job.selected_image)
+      display @job
+    else
+      redirect url(:job_images, @job)
+    end
   end
 
   def new
@@ -20,15 +27,10 @@ class Jobs < Application
     display @job
   end
 
-  # dont need to edit jobs
-=begin
-  def edit(id)
-    only_provides :html
+  def delete(id)
     @job = Job.get(id)
-    raise NotFound unless @job
-    display @job
+    render
   end
-=end
 
   def create(job)
     @job = session.user.jobs.first(:csv_file_name => job[:csv][:filename])
@@ -46,31 +48,17 @@ class Jobs < Application
       # loads table
       @job.prepare
     end
+    # Saving again to cache images arrays
     if @job.save
       if @job.all_images_exist?
         @job.calculate_matches_for(@job.selected_image)
-        redirect resource(@job), :message => {:notice => "Some images are missing!"}
-      else
-        redirect resource(@job), :message => {:notice => "All images found. Ready to compare."}
       end
+      redirect resource(@job)
     else
       message[:error] = "Job failed to be created"
       render :new
     end
   end
-
-  # dont need to update jobs
-=begin
-  def update(id, job)
-    @job = Job.get(id)
-    raise NotFound unless @job
-    if @job.update_attributes(job)
-       redirect resource(@job)
-    else
-      display @job, :edit
-    end
-  end
-=end
 
   def destroy(id)
     @job = Job.get(id)

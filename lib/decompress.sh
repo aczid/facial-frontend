@@ -9,7 +9,7 @@ bz="bunzip2"
 zip="unzip -qo"
 rar="unrar x -id -y"
 tar="tar xf"
-#7z="p7zip -d"
+sevenzip="7z e -y"
 
 if [ $# -eq 0 ]; then
   echo "Usage: decompress file or files to decompress">&2
@@ -52,8 +52,8 @@ case "$extension" in
   tgz ) echo "Filetype is tgz. Decompressing..."
     $tar "$name"
     ;;
-#  7z ) echo "Filetype is 7z. Decompressing..."
-#    $7z "$name"
+  7z ) echo "Filetype is 7z. Decompressing..."
+    $sevenzip "$name"
 esac
 done
 exit 0

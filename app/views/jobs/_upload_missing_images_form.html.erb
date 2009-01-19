@@ -1,4 +1,4 @@
-<%= form_for @image, :action => url(:image => @image) do %>
+<%= form_for @image, :action => url(:job_images, job) do %>
   <%= label "Image file or archive of images" %><br/>
   <%= file_field :image_or_archive %>
   <%= submit "Upload" %>

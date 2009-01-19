@@ -1,2 +1,24 @@
 <%= partial("upload_csv_form") -%>
-<%= partial("list_jobs") -%>
+<h1 class="title">Your jobs:</h1>
+
+<% @jobs.each do |job| -%>
+  <div class="jobsoverview">
+    <div style="float:right"><%= link_to 'X', url(:delete_job, job) -%></div>
+    <strong>Job:</strong><%= link_to job.csv_file_name, url(:job, job) -%><br/>
+    <br />
+    <% unless job.all_images_exist? -%>
+    <strong>Missing Images: </strong>
+    <div style="text-align:left; padding-left:10px; color:#FF0000;">
+      <% job.missing_images.each do |image| -%>
+        <%= image -%><br/>
+      <% end -%>
+      <% job.missing_reference_images.each do |image| -%>
+        <%= image -%><br/>
+      <% end -%>
+    </div>
+    <br /> 
+    <strong>Upload Missing Images:</strong>
+    <%= partial("upload_missing_images_form", :job => job) -%>
+    <% end -%>
+  </div>
+<% end -%>
