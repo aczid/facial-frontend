@@ -37,11 +37,13 @@ Merb::Router.prepare do
     end
   end
 
+
   # This is the default route for /:controller/:action/:id
   # This is fine for most cases.  If you're heavily using resource-based
   # routes, you may want to comment/remove this line to prevent
   # clients from calling your create or destroy actions with a GET
   default_routes
+  #match("/jobs/:job_id/images/:selected_image").to(:controller => :images, :action => :show, :method => :get, :job_id => :job_id)
   
   # Change this for your home page to be available at /
   # match('/').to(:controller => 'whatever', :action =>'index')
