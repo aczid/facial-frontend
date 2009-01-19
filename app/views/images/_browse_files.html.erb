@@ -13,9 +13,11 @@
     <div>
       <div class="step3mainstyle">
         <%= form_for @image, :action => url(:job_image, @job, strip_file_extension(@job.selected_image)), :method => 'get' do %>
+          
           <%= label "Filename" %>
-          <%= select :selected_image, :collection => @job.images.map {|image| [@job.relative_path_to(image), image]}, :selected => @job.relative_path_to(@job.selected_image) %>
+          <% select :selected_image, :collection => @job.images.map {|image| [@job.relative_path_to(image), image]}, :selected => @job.relative_path_to(@job.selected_image) %>
           <% select :selected_image, :collection => @job.images %>
+          <%= select :selected_image, :collection => @job.images.map {|image| [strip_file_extension(image)]}, :selected => strip_file_extension(@job.selected_image) %>
           <%= submit "Select" %>
         <% end =%>
 
