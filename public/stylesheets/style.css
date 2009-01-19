@@ -51,7 +51,7 @@ font: bold 1.2em sans-serif;
 	border-right: solid 1px #999;
 	padding: 0px 4px;
 	background: url(/images/top_bg1.gif);
-	width: 80%;
+	width: 96%;
 	height: 33px;
 }
 
@@ -65,7 +65,7 @@ font: bold 1.2em sans-serif;
 	border-right: solid 1px #999;
 	padding: 0px 4px;
 	background-color: #EEE;
-	width: 80%;
+	width: 96%;
 	margin-top: 5px;
 }
 
@@ -155,7 +155,7 @@ visibility:hidden;
 	border-right: solid 1px #999;
 	padding: 0px 4px;
 	background: url(/images/top_bg.gif);
-	width: 80%;
+	width: 96%;
 }
 
 .step2header{
@@ -168,7 +168,7 @@ visibility:hidden;
 	border-right: solid 1px #999;
 	padding: 0px 4px;
 	background: url(/images/top_bg.gif);
-	width: 80%;
+	width: 96%;
 }
 
 .imageresultsheader{
@@ -204,7 +204,7 @@ visibility:hidden;
 	border-bottom: solid 1px #CCC;
 	border-right: solid 1px #999;
 	background-color: #EEE;
-	width: 80%;
+	width: 96%;
 	padding: 0px 4px;
 }
 
@@ -217,7 +217,7 @@ visibility:hidden;
 	border-bottom: solid 1px #CCC;
 	border-right: solid 1px #999;
 	background-color: #EEE;
-	width: 80%;
+	width: 96%;
 	padding: 10px 4px;
 }
 
