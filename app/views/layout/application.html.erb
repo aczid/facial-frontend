@@ -12,7 +12,7 @@
       <div style="text-align: right">Welcome back, <b><%=session.user.login-%>!</b>(<%= link_to "logout", url(:logout)-%>)</div>
     <% end -%>
     <%= message[:notice] %>
-    <%#= message[:error] %>
+    <%= message[:error] %>
     <%= catch_content :for_layout %>
   </body>
 </html>
