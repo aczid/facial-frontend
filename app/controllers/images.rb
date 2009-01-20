@@ -1,5 +1,5 @@
 class Images < Application
-  # provides :xml, :yaml, :js
+  provides :xml, :html #, :yaml, :js
   before :redirect_id
   before :find_job
   before :add_matches_flag
@@ -10,14 +10,14 @@ class Images < Application
     @job.selected_image = @job.sane_name(@job.images[0])
     @job.calculate_matches_for(@job.selected_image)
     end
-    display @images
+    display @job
   end
 
   def show(selected_image)
     @job.selected_image = @job.sane_name(selected_image)
     @job.prepare
     @job.calculate_matches_for(@job.selected_image)
-    display @image
+    display @job
   end
 
   def create(image_or_archive)

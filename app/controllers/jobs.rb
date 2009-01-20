@@ -1,6 +1,6 @@
 class Jobs < Application
   before :ensure_authenticated
-  # provides :xml, :yaml, :js
+  provides :xml, :html #, :yaml, :js
 
   def index
     @jobs = session.user.jobs
