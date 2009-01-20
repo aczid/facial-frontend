@@ -19,7 +19,8 @@ class Job
   property :created_at, DateTime
   has_attached_file :csv, :nullable => false
   validates_present :csv
-  validates_attachment_content_type :csv, :content_type => "text/csv"
+  # unfortunately this field is not sane coming from windows
+  #validates_attachment_content_type :csv, :content_type => "text/csv"
 
   # Several arrays to save associated images
   property :images, Object

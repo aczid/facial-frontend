@@ -12,11 +12,10 @@ class Image
     if @args[:content_type].match(/image/)
       puts "this is an image!"
       process_as_image
-    elsif @args[:content_type].match(/application\/(x-rar|x-tar|x-zip|x-7z)/)
-      puts "this is an archive!"
-      process_as_archive
+    #elsif @args[:content_type].match(/application\/(x-rar|x-tar|x-zip|x-7z)/)
+    #  puts "this is an archive!"
     else
-      puts @args[:content_type]
+      process_as_archive
     end
   end
 
