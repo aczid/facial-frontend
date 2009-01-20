@@ -1,3 +1,11 @@
+<script>
+$(document).ready(function(){
+
+$('#missingimages').hide();
+ });
+
+</script>
+
 <%= partial("upload_csv_form") -%>
 <div style="float:left;"><h1 class="title">Your jobs:</h1></div>
 
@@ -7,8 +15,9 @@
     <strong>Job:</strong><%= link_to job.csv_file_name, url(:job_images, job) -%><br/>
     <br />
     <% unless job.all_images_exist? -%>
-    <strong>Missing Images: </strong> <a href="#" onclick="$('missingimages').toggle()">Show / Hide</a>
-    <div id="missingimages" style="text-align:left; padding-left:10px; color:#FF0000;visibility:hidden;">
+    <strong>Missing Images: </strong> <a href="#" onClick="$('#missingimages').toggle(400);return 
+false;">Show / Hide</a>
+    <div id="missingimages" style="text-align:left; padding-left:10px; color:#FF0000;">
       <% job.missing_images.each do |image| -%>
         <%= image -%><br/>
       <% end -%>

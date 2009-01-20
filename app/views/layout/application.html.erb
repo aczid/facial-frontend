@@ -6,13 +6,24 @@
     <% require_css "style" -%>
     <%= include_required_css -%>
     <%= include_required_js -%>
+    <script type="text/javascript" src="/javascripts/jquery.js"></script>
   </head>
   <body class="bodystyle">
+<div class="pagelayoutbanner">
+	<img src="/images/nfi.png" width="512" height="80"/>
+</div>
+<div class="pagelayoutlogin">
     <% unless session.user.nil? -%>
-      <div style="text-align: right">Welcome back, <b><%=session.user.login-%>!</b>(<%= link_to "logout", url(:logout)-%>)</div>
+    <div style="text-align: right;float:right;"><a href="/">Home</a> - Welcome back, <b><%=session.user.login-%>!</b>(<%= link_to "logout", url(:logout)-%>)</div>
     <% end -%>
-    <%= message[:notice] %>
-    <%= message[:error] %>
+    
+    <div style="float:left;">
+   	 <%= message[:notice] %>
+   	 <%= message[:error] %>
+    </div>
+</div>
+<div class="pagelayoutbody">
     <%= catch_content :for_layout %>
+</div>
   </body>
 </html>

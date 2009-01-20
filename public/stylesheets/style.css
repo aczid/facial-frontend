@@ -1,4 +1,68 @@
 
+a:link{
+	color: #000000;
+}
+a:visited{
+	color: #000000;
+}
+
+a:actieve{
+ color: #000000;
+}
+
+a:hover {
+  color: #FF0000;
+}
+
+.jobactionstyle{
+        float: left;
+        border-left: solid 1px #999;
+        border-bottom: solid 1px #999;
+        border-right: solid 1px #999;
+	border-top: solid 1px #999;
+        background-color: #EEE;
+        width: 96%;
+        padding: 0px 4px;
+	font: 0.7em sans-serif;
+	margin-bottom: 400px;
+}
+
+
+.pagelayoutbanner{
+width: 99%;
+height: 80px;
+border-left: solid 1px #999;
+border-bottom: solid 1px #999;
+border-top: solid 1px #999;
+border-right: solid 1px #999;
+float: left;
+margin-top: 3px;
+background: url(/images/top_bg_layout.gif);
+padding-left: 10px;
+}
+.pagelayoutlogin{
+width: 99%;
+height: 15px;
+border-left: solid 1px #999;
+border-bottom: solid 1px #999;
+border-right: solid 1px #999;
+float: left;
+background-color:#EEEEEE;
+padding-left: 10px;
+font: 0.7em sans-serif;
+}
+
+.pagelayoutbody{
+width: 99%;
+border-left: solid 1px #999;
+border-bottom: solid 1px #999;
+border-right: solid 1px #999;
+float: left;
+padding-left: 10px;
+padding-bottom: 4px;
+padding-top: 4px;
+}
+
 .loginerrordiv{
         float: left;
         font: 0.7em sans-serif;
@@ -36,6 +100,7 @@
 	width: 80%;
 	padding: 0px 4px;
 	margin-left: 10%;
+	margin-bottom: 10%;
 }
 
 .errortext{
@@ -177,6 +242,7 @@ visibility:hidden;
 	padding: 0px 4px;
 	background: url(/images/top_bg.gif);
 	width: 96%;
+	margin-top: 10px;
 }
 
 .step2header{
@@ -218,7 +284,6 @@ visibility:hidden;
 
 .step1mainstyle{
 	float: left;
-	margin: 0px 0px 0px 0px;
 	clear: both;
 	font: 0.7em sans-serif;
 	border-left: solid 1px #CCC;
@@ -231,7 +296,6 @@ visibility:hidden;
 
 .step2mainstyle{
 	float: left;
-	margin: 0px 0px 0px 0px;
 	clear: both;
 	font: 0.7em sans-serif;
 	border-left: solid 1px #CCC;
@@ -240,6 +304,7 @@ visibility:hidden;
 	background-color: #EEE;
 	width: 96%;
 	padding: 10px 4px;
+        margin-bottom: 10px;
 }
 
 .step3header{
@@ -271,14 +336,23 @@ visibility:hidden;
 	border-bottom: solid 1px #999;
 	border-top: solid 1px #999;
 	border-right: solid 1px #999;
+	margin-top: 10px;
 }
 
+.warningboximages{
+        float: left;
+        margin: 0px 0px 0px 0px;
+        clear: both;
+        font: 0.7em sans-serif;
+        border-left: solid 1px #CCC;
+        border-bottom: solid 1px #CCC;
+        border-right: solid 1px #999;
+        background-color: #EEE;
+        width: 96%;
+        padding: 10px 4px;
+}
 .warningbox{
-	width: 60%;
-	border-left: solid 1px #999;
-	border-bottom: solid 1px #999;
-	border-top: solid 1px #999;
-	border-right: solid 1px #999;
+padding: 10px 4px;
 }
 .uploadbox{
 	width: 60%;
@@ -288,5 +362,16 @@ visibility:hidden;
 }
 
 .missingfilesstyle{
-padding-top: 5px;
+        float: left;
+        font: bold 0.7em sans-serif;
+        background-color: #DDD;
+        border-left: solid 1px #999;
+        border-bottom: solid 1px #999;
+        border-top: solid 1px #999;
+        border-right: solid 1px #999;
+        padding: 0px 4px;
+        background: url(/images/top_bg.gif);
+        width: 96%;
+	margin-top:10px;
 }
+

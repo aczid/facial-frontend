@@ -1,17 +1,29 @@
+<script>
+$(document).ready(function(){
 
-            <div class="missingfilesstyle">
-              <div class="warningbox" border="0" cellpadding="0" cellspacing="0">
-                <div style="display: inline; color:#FF0000">Warning:</div></b> The following files mentioned in the CSV file could not be found.<br/>
-                <div>
-                  <p>Some compared images are missing! Please upload the following files. (Supported formats: jpeg, jpg, png, zip, rar, tar)</p>
+$('#missingimages').hide();
+ });
+
+</script>
+            
+	    <div class="missingfilesstyle">
+            <font color="#FF0000"><b>Warning:</b></font> The following files mentioned in the CSV file could not be found.
+	    </div>
+	     <div class="warningboximages" border="0" cellpadding="0" cellspacing="0">
+                  <a href="#" onClick="$('#missingimages').toggle(400);return false;">Show / Hide missing images</a>
+		  <div id="missingimages">
                   <% @job.missing_images.each do |image| -%>
                     <%= image -%><br/>
                   <% end -%>
                   <% @job.missing_reference_images.each do |image| -%>
                     <%= image -%><br/>
                   <% end -%>
-                </div>
-                Please use the form below to upload the missing files.<br/>
-                <%= partial "jobs/upload_missing_images_form", :job => @job -%>
-              </div>
-            </div>
+		  </div>
+             </div>
+              
+	     <div class="missingfilesstyle">
+	       Please use the form below to upload the missing files.
+	     </div>
+	     <div class="warningboximages">
+		 <%= partial "jobs/upload_missing_images_form", :job => @job -%>
+             </div>

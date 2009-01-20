@@ -1,5 +1,8 @@
+<div class="warningbox">
 <%= form_for @image, :action => url(:job_images, job) do %>
-  <%= label "Image file or archive of images" %><br/>
+  <%= label "Image file or archive of images:" %>
   <%= file_field :image_or_archive %>
   <%= submit "Upload" %>
 <% end =%>
+(Supported formats: jpeg, jpg, png, zip, rar, tar)
+</div>

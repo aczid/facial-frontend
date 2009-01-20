@@ -3,27 +3,28 @@
 <% require_js "jquery.inspect" %>
   <div class="step2header">
     <div style="float:right"><img src="/images/minus.gif" alt="minus" width="10" height="10" /></div>
-    Step 2: Results
+    Results
   </div>
   <div class="step2mainstyle">
     <div>
-      <div class="step3header">Step 3: Select compare Image </div>
-      <div class="imageresultsheader">Step 4: Images that match the compare image </div><br />
+      <div class="step3header">Select compare Image </div>
+      <div class="imageresultsheader">Images that match the compare image </div><br />
     </div>
     <div>
       <div class="step3mainstyle">
         <%= form_for @image, :action => url(:job_image, @job, strip_file_extension(@job.selected_image)), :method => 'get' do %>
           
-          <%= label "Filename" %>
+          <%= label "Filename:" %>
           <% select :selected_image, :collection => @job.images.map {|image| [@job.relative_path_to(image), image]}, :selected => @job.relative_path_to(@job.selected_image) %>
           <% select :selected_image, :collection => @job.images %>
           <%= select :selected_image, :collection => @job.images.map {|image| [strip_file_extension(image)]}, :selected => strip_file_extension(@job.selected_image) %>
           <%= submit "Select" %>
         <% end =%>
-
+      Amount of images to show:<a href="?matches=5">5</a> / <a href="?matches=10">10</a> / <a href="?matches=20">20</a> / <a href="?matches=50">50</a> / <a 
+href="?matches=100">100</a><BR>
       <table align="center" class="imagecontainer" <% unless @job.selected_image -%>style="display:none;"<% end -%>>
           <tr>
-            <td><img src="<%= @job.relative_path_to_selected_image -%>" alt="<%= strip_file_extension(@job.selected_image)-%>" width="150px" /></td>
+            <td><img src="<%= @job.relative_path_to_selected_image -%>" alt="<%= strip_file_extension(@job.selected_image)-%>" width="200px" /></td>
           </tr>
           <tr>
             <td>
