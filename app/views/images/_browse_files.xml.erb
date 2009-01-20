@@ -1,0 +1,5 @@
+<matches job="<%= @job.csv_file_name -%>" reference_image="<%= @job.selected_image -%>>">
+  <% @job.matches[@job.selected_image.to_sym].each do |match| -%>
+    <match image="<%= @job.image_filename_for_match(match) -%>" accuracy="<%= @job.match_accuracy(match) -%>" />
+  <% end -%>
+</matches>
